@@ -8,6 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+      REVIEWER: ${{ secrets.REVIEWER }}
+
     strategy:
       matrix:
         node-version: [16.x]
@@ -17,5 +21,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
+      - run: |
+          sudo rm .env
+          touch .env
+          echo $WEBHOOK_URL >> .env
+          echo $REVIEWER >> .env
+          cat .env
       - run: npm ci
       - run: npx ts-node src/index.ts
