@@ -1,13 +1,12 @@
 name: the-pool-pull-request-reminder-action
 on:
-  push:
-    branches: ['main']
-  workflow_dispatch:
+  schedule:
+    - cron: '0 11 * * 1-5'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     env:
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
       REVIEWER: ${{ secrets.REVIEWER }}
