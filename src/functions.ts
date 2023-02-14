@@ -129,9 +129,13 @@ export const buildMessage = async (
     ]) => {
       const emoji: string = ':fire:'.repeat(count);
 
-      embed.addField(githubUserName, `<@${discordId}> ` + emoji);
+      embed.addField('', `<@${discordId}> ` + emoji, true);
+      embed.addField('', `**${count}건**`, true);
+      embed.addField('', '', true);
     },
   );
+
+  embed.addField('', '\n');
 
   await hook.send(embed);
 };
