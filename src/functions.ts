@@ -105,17 +105,21 @@ export const buildMessage = async (
   hook.setUsername('Git Hub');
 
   const embed = new MessageBuilder()
-    .setTitle('리뷰 부탁드립니다.')
-    .setDescription('**[리뷰하러 가기](https://github.com/pulls)**')
+    .setColor('#00b0f4' as unknown as number)
     .setAuthor(
       'PR BOT',
       'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
       'https://github.com/pulls',
     )
+    .setTitle('리뷰 부탁드립니다.')
+    .setDescription('**[리뷰하러 가기](https://github.com/pulls)**')
     .setThumbnail(
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidSZL4BdECVb3sL0ZQ2jZSYIWNDQTiTcJJQ&usqp=CAU',
     )
-    .setColor('#00b0f4' as unknown as number)
+    .setFooter(
+      'the-pool',
+      'https://avatars.githubusercontent.com/u/113972423?s=200&v=4',
+    )
     .setTimestamp();
 
   Object.entries(reviwerForm).forEach(
