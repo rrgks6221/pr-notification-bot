@@ -99,13 +99,23 @@ export const buildMessage = async (
 ) => {
   const hook = new Webhook(webhookUrl);
 
+  hook.setAvatar(
+    'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
+  );
+  hook.setUsername('Git Hub');
+
   const embed = new MessageBuilder()
-    .setTitle('리뷰 부탁드립니다. **https://github.com/pulls**')
+    .setTitle('리뷰 부탁드립니다.')
+    .setDescription('**[리뷰하러 가기](https://github.com/pulls)**')
     .setAuthor(
       'PR BOT',
       'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
       'https://github.com/pulls',
     )
+    .setThumbnail(
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidSZL4BdECVb3sL0ZQ2jZSYIWNDQTiTcJJQ&usqp=CAU',
+    )
+    .setColor('#00b0f4' as unknown as number)
     .setTimestamp();
 
   Object.entries(reviwerForm).forEach(
@@ -115,7 +125,7 @@ export const buildMessage = async (
     ]) => {
       const emoji: string = ':fire:'.repeat(count);
 
-      embed.addField(githubUserName, `<@${discordId}>` + emoji);
+      embed.addField(githubUserName, `<@${discordId}> ` + emoji);
     },
   );
 
