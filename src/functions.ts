@@ -100,9 +100,7 @@ export const buildMessage = async (
   const hook = new Webhook(webhookUrl);
 
   const embed = new MessageBuilder()
-    .setTitle(
-      '리뷰 부탁드립니다. **https://github.com/pulls?q=is%3Aopen+is%3Apr+author%3Arrgks6221+archived%3Afalse+user%3Athe-pool**',
-    )
+    .setTitle('리뷰 부탁드립니다. **https://github.com/pulls**')
     .setAuthor(
       'PR BOT',
       'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
