@@ -82,7 +82,6 @@ export const getReviwerCount = (
       if (!reviewers.includes(githubUserName)) return;
 
       obj[discordId] = {
-        githubUserName,
         count: reviewers.filter((reviewer) => {
           return reviewer === githubUserName;
         }).length,
@@ -123,10 +122,7 @@ export const buildMessage = async (
     .setTimestamp();
 
   Object.entries(reviwerForm).forEach(
-    ([discordId, { count, githubUserName }]: [
-      string,
-      { count: number; githubUserName: string },
-    ]) => {
+    ([discordId, { count }]: [string, { count: number }]) => {
       const emoji: string = ':fire:'.repeat(count);
 
       embed.addField('', `<@${discordId}> ` + emoji, true);

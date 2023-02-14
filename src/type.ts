@@ -13,7 +13,4 @@ export type Pull = {
   draft: boolean;
 };
 
-export type ReviwerForm = Record<
-  string,
-  { count: number; githubUserName: string }
->;
+export type ReviwerForm = Record<string, { count: number }>;
