@@ -115,7 +115,7 @@ export const buildMessage = async (
       string,
       { count: number; githubUserName: string },
     ]) => {
-      const emoji: string = ':rage:'.repeat(count);
+      const emoji: string = ':fire:'.repeat(count);
 
       embed.addField(githubUserName, `<@${discordId}>` + emoji);
     },
