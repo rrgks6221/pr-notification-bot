@@ -11,12 +11,14 @@ dotenv.config();
 
 const WEBHOOK_URL = process.env.WEBHOOK_URL as string;
 
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN as string;
+
 async function main() {
   try {
     const owner = 'the-pool';
     const repos: string[] = ['the-pool-api'];
 
-    const pulls = await getPullRequestsFromRepos(owner, repos);
+    const pulls = await getPullRequestsFromRepos(owner, repos, GITHUB_TOKEN);
 
     const pendingPulls = pulls.filter((pull) => {
       return !pull.draft && pull.requested_reviewers.length;
