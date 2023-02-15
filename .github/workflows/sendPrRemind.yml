@@ -1,7 +1,7 @@
 name: the-pool-pull-request-reminder-action
 on:
   schedule:
-    - cron: '0 1,11 * * *'
+    - cron: '20 1,11 * * *'
 
 jobs:
   build:
