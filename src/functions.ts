@@ -92,10 +92,10 @@ export const getReviwerCount = (
   return obj;
 };
 
-export const buildMessage = async (
+export const sendMessage = async (
   webhookUrl: string,
   reviwerForm: ReviwerForm,
-) => {
+): Promise<void> => {
   const hook = new Webhook(webhookUrl);
 
   hook.setAvatar(
