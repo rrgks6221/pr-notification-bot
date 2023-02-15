@@ -10,6 +10,7 @@ jobs:
     env:
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
       REVIEWER: ${{ secrets.REVIEWER }}
+      DEVELOPER_TOKEN: ${{ secrets.DEVELOPER_TOKEN }}
 
     strategy:
       matrix:
@@ -24,6 +25,7 @@ jobs:
           touch .env
           echo $WEBHOOK_URL >> .env
           echo $REVIEWER >> .env
+          echo $DEVELOPER_TOKEN >> .env
           cat .env
       - run: npm ci
       - run: npx ts-node src/index.ts
