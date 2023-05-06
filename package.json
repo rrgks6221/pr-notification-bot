@@ -3,15 +3,24 @@
   "version": "1.0.0",
   "description": "Send discord messages to remind reviewing pull requests.",
   "main": "index.js",
+  "author": "SeokHo Lee <https://github.com/rrgks6221>",
+  "license": "MIT",
+  "contributors": [
+    "Seok Ho Lee <rrgks@naver.com>"
+  ],
+  "keywords": [
+    "discord",
+    "pull request",
+    "notification"
+  ],
   "scripts": {
+    "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/the-pool/the-pool-pull-request-reminder-action.git"
   },
-  "author": "Seokho Lee",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/the-pool/the-pool-pull-request-reminder-action/issues"
   },
