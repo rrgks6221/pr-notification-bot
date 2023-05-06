@@ -6,6 +6,7 @@ import {
   getReviewerCount,
 } from './functions';
 import * as dotenv from 'dotenv';
+import { Pull, ReviewerForm } from './type';
 
 dotenv.config();
 
@@ -17,19 +18,33 @@ const DEVELOPER_TOKEN = process.env.DEVELOPER_TOKEN as string;
 
 async function main() {
   try {
+    // github owner
     const owner = 'the-pool';
+    // collect pr repositories
     const repos: string[] = ['the-pool-api'];
 
-    const pulls = await getPullRequestsFromRepos(owner, repos, DEVELOPER_TOKEN);
+    // all pull requests
+    const pulls: Pull[] = await getPullRequestsFromRepos(
+      owner,
+      repos,
+      DEVELOPER_TOKEN,
+    );
 
-    const pendingPulls = pulls.filter((pull) => {
+    // pending and not draft pull requests
+    const pendingPulls: Pull[] = pulls.filter((pull) => {
       return !pull.draft && pull.requested_reviewers.length;
     });
 
-    const reviewers = getReviewers(pendingPulls);
-    const reviewerObj = getReviewerObj();
+    // github userName
+    const reviewers: string[] = getReviewers(pendingPulls);
+    // { githubUserName: discordId }
+    const reviewerObj: Record<string, string> = getReviewerObj();
 
-    const reviewerCount = getReviewerCount(reviewers, reviewerObj);
+    // { discordId: { count: pendingReviewCount } }
+    const reviewerCount: ReviewerForm = getReviewerCount(
+      reviewers,
+      reviewerObj,
+    );
 
     await sendMessage(WEBHOOK_URL, reviewerCount);
   } catch (error) {

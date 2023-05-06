@@ -57,6 +57,7 @@ export const getReviewers = (pulls: Pull[]): string[] => {
 };
 
 export const getReviewerObj = (): Record<string, string> => {
+  // ex) githubNickname1:webhookId1,githubNickname2:webhookId2
   const REVIEWER = process.env.REVIEWER as string;
 
   return REVIEWER.split(',').reduce(
