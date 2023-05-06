@@ -1,9 +1,9 @@
 import {
   sendMessage,
   getPullRequestsFromRepos,
-  getReviwerObj,
+  getReviewerObj,
   getReviewers,
-  getReviwerCount,
+  getReviewerCount,
 } from './functions';
 import * as dotenv from 'dotenv';
 
@@ -27,9 +27,9 @@ async function main() {
     });
 
     const reviewers = getReviewers(pendingPulls);
-    const reviewerObj = getReviwerObj();
+    const reviewerObj = getReviewerObj();
 
-    const reviewerCount = getReviwerCount(reviewers, reviewerObj);
+    const reviewerCount = getReviewerCount(reviewers, reviewerObj);
 
     await sendMessage(WEBHOOK_URL, reviewerCount);
   } catch (error) {
