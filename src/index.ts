@@ -2,7 +2,7 @@ import {
   sendMessage,
   getPullRequestsFromRepos,
   getReviwerObj,
-  getReviwers,
+  getReviewers,
   getReviwerCount,
 } from './functions';
 import * as dotenv from 'dotenv';
@@ -26,10 +26,10 @@ async function main() {
       return !pull.draft && pull.requested_reviewers.length;
     });
 
-    const reviwers = getReviwers(pendingPulls);
+    const reviewers = getReviewers(pendingPulls);
     const reviewerObj = getReviwerObj();
 
-    const reviewerCount = getReviwerCount(reviwers, reviewerObj);
+    const reviewerCount = getReviwerCount(reviewers, reviewerObj);
 
     await sendMessage(WEBHOOK_URL, reviewerCount);
   } catch (error) {

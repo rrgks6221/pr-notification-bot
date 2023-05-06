@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { MessageBuilder, Webhook } from 'discord-webhook-node';
-import { ReviwerForm, Pull } from './type';
+import { ReviewerForm, Pull } from './type';
 
 export const getPullRequestsFromRepos = async (
   owner: string,
@@ -42,8 +42,8 @@ export const getPullRequestsFromRepos = async (
   return pulls;
 };
 
-export const getReviwers = (pulls: Pull[]): string[] => {
-  const reviwers: string[] = pulls.reduce((acc: string[], cur) => {
+export const getReviewers = (pulls: Pull[]): string[] => {
+  const reviewers: string[] = pulls.reduce((acc: string[], cur) => {
     acc.push(
       ...cur.requested_reviewers.map((requested_reviewer) => {
         return requested_reviewer.login;
@@ -53,10 +53,10 @@ export const getReviwers = (pulls: Pull[]): string[] => {
     return acc;
   }, []);
 
-  return reviwers;
+  return reviewers;
 };
 
-export const getReviwerObj = (): Record<string, string> => {
+export const getReviewerObj = (): Record<string, string> => {
   const REVIEWER = process.env.REVIEWER as string;
 
   return REVIEWER.split(',').reduce(
@@ -71,11 +71,11 @@ export const getReviwerObj = (): Record<string, string> => {
   );
 };
 
-export const getReviwerCount = (
+export const getReviewerCount = (
   reviewers: string[],
   reviewerObj: Record<string, string>,
-): ReviwerForm => {
-  const obj: ReviwerForm = {};
+): ReviewerForm => {
+  const obj: ReviewerForm = {};
 
   Object.entries(reviewerObj).forEach(
     ([githubUserName, discordId]: [string, string]) => {
@@ -94,7 +94,7 @@ export const getReviwerCount = (
 
 export const sendMessage = async (
   webhookUrl: string,
-  reviwerForm: ReviwerForm,
+  reviewerForm: ReviewerForm,
 ): Promise<void> => {
   const hook = new Webhook(webhookUrl);
 
@@ -121,7 +121,7 @@ export const sendMessage = async (
     )
     .setTimestamp();
 
-  Object.entries(reviwerForm).forEach(
+  Object.entries(reviewerForm).forEach(
     ([discordId, { count }]: [string, { count: number }]) => {
       const emoji: string = ':fire:'.repeat(count);
 

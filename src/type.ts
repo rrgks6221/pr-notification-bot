@@ -13,4 +13,4 @@ export type Pull = {
   draft: boolean;
 };
 
-export type ReviwerForm = Record<string, { count: number }>;
+export type ReviewerForm = Record<string, { count: number }>;
