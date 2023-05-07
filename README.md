@@ -24,6 +24,8 @@
 
 ## **Related projects**
 
+---
+
 - [the-pool-api](https://github.com/the-pool/the-pool-api)
 
 ## **Contributors**
