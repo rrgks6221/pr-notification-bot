@@ -1,6 +1,6 @@
 # Github Pull Request Reminder Bot
 
-### [The Pool Team](https://github.com/the-pool) 의 PR 알림을 위한 Bot 입니다.
+### PR 알림을 위한 Bot 입니다.
 
 ### 매일 오전 10시, 오후 8시 2번씩 리뷰어로 리뷰해야할 PR 을 Remind 해줍니다.
 
@@ -28,14 +28,6 @@
 >    2. Settings
 >    3. Secret and variables - actions
 >    4. 사진처럼 값을 채워주세요.<img width="766" alt="image" src="https://user-images.githubusercontent.com/46591459/236629544-b1054a4d-c7e0-4693-8612-bc4e0f95d2f0.png">
-
-<br/>
-
-## **Related projects**
-
----
-
-- [the-pool-api](https://github.com/the-pool/the-pool-api)
 
 <br/>
 
