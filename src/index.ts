@@ -12,16 +12,16 @@ dotenv.config();
 
 const WEBHOOK_URL = process.env.WEBHOOK_URL as string;
 
-// 현재 이석호 개인 계정 토큰
-// 개인 토큰이 아닌 팀 토큰으로 변경 필요
-const DEVELOPER_TOKEN = process.env.DEVELOPER_TOKEN as string;
+// 토큰을 주지 않을경우 rate limit 에 걸려 알림이 오지 않을수도 있습니다.
+const DEVELOPER_TOKEN = process.env.DEVELOPER_TOKEN;
 
 async function main() {
   try {
     // github owner
-    const owner = 'the-pool';
+    // https://github.com/rrgks6221/pr-notification-bot => rrgks6221
+    const owner = 'rrgks6221';
     // collect pr repositories
-    const repos: string[] = ['the-pool-api'];
+    const repos: string[] = ['pr-notification-bot'];
 
     // all pull requests
     const pulls: Pull[] = await getPullRequestsFromRepos(
@@ -37,10 +37,10 @@ async function main() {
 
     // github userName
     const reviewers: string[] = getReviewers(pendingPulls);
-    // { githubUserName: discordId }
+    // { githubUserName: messengerId }
     const reviewerObj: Record<string, string> = getReviewerObj();
 
-    // { discordId: { count: pendingReviewCount } }
+    // { messengerId: { count: pendingReviewCount } }
     const reviewerCount: ReviewerForm = getReviewerCount(
       reviewers,
       reviewerObj,
