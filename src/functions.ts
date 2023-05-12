@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { MessageBuilder, Webhook } from 'discord-webhook-node';
-import { ReviewerForm, Pull } from './type';
+import { ReviewerForm, Pull, Messenger } from './type';
 
 export const getPullRequestsFromRepos = async (
   owner: string,
@@ -62,9 +62,9 @@ export const getReviewerObj = (): Record<string, string> => {
 
   return REVIEWER.split(',').reduce(
     (acc: Record<string, string>, cur: string) => {
-      const [githubUserName, discordId]: string[] = cur.split(':');
+      const [githubUserName, messengerId]: string[] = cur.split(':');
 
-      acc[githubUserName] = discordId;
+      acc[githubUserName] = messengerId;
 
       return acc;
     },
@@ -79,10 +79,10 @@ export const getReviewerCount = (
   const obj: ReviewerForm = {};
 
   Object.entries(reviewerObj).forEach(
-    ([githubUserName, discordId]: [string, string]) => {
+    ([githubUserName, messengerId]: [string, string]) => {
       if (!reviewers.includes(githubUserName)) return;
 
-      obj[discordId] = {
+      obj[messengerId] = {
         count: reviewers.filter((reviewer) => {
           return reviewer === githubUserName;
         }).length,
@@ -93,10 +93,19 @@ export const getReviewerCount = (
   return obj;
 };
 
-export const sendMessage = async (
+export const sendDiscordMessage = async (
   webhookUrl: string,
   reviewerForm: ReviewerForm,
 ): Promise<void> => {
+  // message thumbnail image url
+  const THUMBNAIL_URL =
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidSZL4BdECVb3sL0ZQ2jZSYIWNDQTiTcJJQ&usqp=CAU';
+  // message footer image url
+  const FOOTER_IMAGE_URL =
+    'https://avatars.githubusercontent.com/u/113972423?s=200&v=4';
+  // message footer description
+  const FOOTER_DESCRIPTION = 'user Description';
+
   const hook = new Webhook(webhookUrl);
 
   hook.setAvatar(
@@ -113,13 +122,8 @@ export const sendMessage = async (
     )
     .setTitle('리뷰 부탁드립니다.')
     .setDescription('**[리뷰하러 가기](https://github.com/pulls)**')
-    .setThumbnail(
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidSZL4BdECVb3sL0ZQ2jZSYIWNDQTiTcJJQ&usqp=CAU',
-    )
-    .setFooter(
-      'the-pool',
-      'https://avatars.githubusercontent.com/u/113972423?s=200&v=4',
-    )
+    .setThumbnail(THUMBNAIL_URL)
+    .setFooter(FOOTER_DESCRIPTION, FOOTER_IMAGE_URL)
     .setTimestamp();
 
   Object.entries(reviewerForm).forEach(
@@ -135,4 +139,14 @@ export const sendMessage = async (
   embed.addField('', '\n');
 
   await hook.send(embed);
+};
+
+export const sendMessage = async (
+  messenger: Messenger,
+  webhookUrl: string,
+  reviewerForm: ReviewerForm,
+): Promise<void> => {
+  if (messenger === 'discord') {
+    await sendDiscordMessage(webhookUrl, reviewerForm);
+  }
 };

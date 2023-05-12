@@ -14,3 +14,5 @@ export type Pull = {
 };
 
 export type ReviewerForm = Record<string, { count: number }>;
+
+export type Messenger = 'slack' | 'discord';

@@ -46,7 +46,7 @@ async function main() {
       reviewerObj,
     );
 
-    await sendMessage(WEBHOOK_URL, reviewerCount);
+    await sendMessage('slack', WEBHOOK_URL, reviewerCount);
   } catch (error) {
     console.log(error);
   }
