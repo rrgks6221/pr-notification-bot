@@ -45,47 +45,48 @@ export const getPullRequestsFromRepos = async (
   return pulls;
 };
 
+export const getPendingPullRequests = (pulls: Pull[]): Pull[] => {
+  return pulls.filter((pull) => {
+    return !pull.draft && pull.requested_reviewers.length;
+  });
+};
+
 export const getReviewers = (pulls: Pull[]): string[] => {
-  const reviewers: string[] = pulls.reduce((acc: string[], cur) => {
+  return pulls.reduce((acc: string[], cur) => {
+    const { requested_reviewers } = cur;
     acc.push(
-      ...cur.requested_reviewers.map((requested_reviewer) => {
-        return requested_reviewer.login;
+      ...requested_reviewers.map((requestedReviewer) => {
+        return requestedReviewer.login;
       }),
     );
 
     return acc;
   }, []);
-
-  return reviewers;
 };
 
-export const getReviewerObj = (): Record<string, string> => {
-  // ex) githubNickname1:webhookId1,githubNickname2:webhookId2
-  const REVIEWER = process.env.REVIEWER as string;
-
-  return REVIEWER.split(',').reduce(
-    (acc: Record<string, string>, cur: string) => {
+export const getReviewerObj = (reviewer: string): Record<string, string> => {
+  return reviewer
+    .split(',')
+    .reduce((acc: Record<string, string>, cur: string) => {
       const [githubUserName, messengerId]: string[] = cur.split(':');
 
       acc[githubUserName] = messengerId;
 
       return acc;
-    },
-    {},
-  );
+    }, {});
 };
 
-export const getReviewerCount = (
+export const getReviewerForm = (
   reviewers: string[],
   reviewerObj: Record<string, string>,
 ): ReviewerForm => {
-  const obj: ReviewerForm = {};
+  const reviewerForm: ReviewerForm = {};
 
   Object.entries(reviewerObj).forEach(
     ([githubUserName, messengerId]: [string, string]) => {
       if (!reviewers.includes(githubUserName)) return;
 
-      obj[messengerId] = {
+      reviewerForm[messengerId] = {
         count: reviewers.filter((reviewer) => {
           return reviewer === githubUserName;
         }).length,
@@ -93,7 +94,7 @@ export const getReviewerCount = (
     },
   );
 
-  return obj;
+  return reviewerForm;
 };
 
 const sendDiscordMessage = async (

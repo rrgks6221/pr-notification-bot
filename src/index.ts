@@ -3,7 +3,8 @@ import {
   getPullRequestsFromRepos,
   getReviewerObj,
   getReviewers,
-  getReviewerCount,
+  getReviewerForm,
+  getPendingPullRequests,
 } from './functions';
 import * as dotenv from 'dotenv';
 import { Pull, ReviewerForm } from './type';
@@ -14,6 +15,9 @@ const WEBHOOK_URL = process.env.WEBHOOK_URL as string;
 
 // 토큰을 주지 않을경우 rate limit 에 걸려 알림이 오지 않을수도 있습니다.
 const DEVELOPER_TOKEN = process.env.DEVELOPER_TOKEN;
+
+// ex) githubNickname1:webhookId1,githubNickname2:webhookId2
+const REVIEWER = process.env.REVIEWER as string;
 
 async function main() {
   try {
@@ -30,25 +34,22 @@ async function main() {
       DEVELOPER_TOKEN,
     );
 
-    // pending and not draft pull requests
-    const pendingPulls: Pull[] = pulls.filter((pull) => {
-      return !pull.draft && pull.requested_reviewers.length;
-    });
+    // pending status pull requests
+    const pendingPulls: Pull[] = getPendingPullRequests(pulls);
 
     // github userName
     const reviewers: string[] = getReviewers(pendingPulls);
     // { githubUserName: messengerId }
-    const reviewerObj: Record<string, string> = getReviewerObj();
+    const reviewerObj: Record<string, string> = getReviewerObj(REVIEWER);
 
     // { messengerId: { count: pendingReviewCount } }
-    const reviewerCount: ReviewerForm = getReviewerCount(
-      reviewers,
-      reviewerObj,
-    );
+    const reviewerForm: ReviewerForm = getReviewerForm(reviewers, reviewerObj);
 
-    await sendMessage('slack', WEBHOOK_URL, reviewerCount);
+    await sendMessage('slack', WEBHOOK_URL, reviewerForm);
+
+    console.log(reviewerForm);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
