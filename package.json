@@ -1,7 +1,7 @@
 {
-  "name": "the-pool-pull-request-reminder-action",
+  "name": "pr-notification-bot",
   "version": "1.0.0",
-  "description": "Send discord messages to remind reviewing pull requests.",
+  "description": "Send messages to remind reviewing pull requests.",
   "main": "index.js",
   "author": "SeokHo Lee <https://github.com/rrgks6221>",
   "license": "MIT",
@@ -10,6 +10,7 @@
   ],
   "keywords": [
     "discord",
+    "slack",
     "pull request",
     "notification"
   ],
@@ -19,12 +20,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/the-pool/the-pool-pull-request-reminder-action.git"
+    "url": "git+https://github.com/rrgks6221/pr-notification-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/the-pool/the-pool-pull-request-reminder-action/issues"
+    "url": "https://github.com/rrgks6221/pr-notification-bot/issues"
   },
-  "homepage": "https://github.com/the-pool/the-pool-pull-request-reminder-action#readme",
+  "homepage": "https://github.com/rrgks6221/pr-notification-bot#readme",
   "dependencies": {
     "@slack/types": "^2.8.0",
     "@slack/webhook": "^6.1.0",
