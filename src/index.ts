@@ -1,5 +1,4 @@
 import {
-  sendMessage,
   getPullRequestsFromRepos,
   getReviewerObj,
   getReviewers,
@@ -8,6 +7,7 @@ import {
 } from './functions';
 import * as dotenv from 'dotenv';
 import { Pull, ReviewerForm } from './type';
+import { Message } from './message';
 
 dotenv.config();
 
@@ -45,7 +45,9 @@ async function main() {
     // { messengerId: { count: pendingReviewCount } }
     const reviewerForm: ReviewerForm = getReviewerForm(reviewers, reviewerObj);
 
-    await sendMessage('slack', WEBHOOK_URL, reviewerForm);
+    const message = new Message('slack', WEBHOOK_URL);
+
+    await message.send(reviewerForm);
 
     console.log(reviewerForm);
   } catch (error) {
