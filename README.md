@@ -1,24 +1,38 @@
 # Github Pull Request Reminder Bot
 
-### PR 알림을 위한 Bot 입니다.
+## PR 알림을 위한 Bot 입니다.
 
-### 매일 오전 10시, 오후 8시 2번씩 리뷰어로 리뷰해야할 PR 을 Remind 해줍니다.
+> ### `./.github/workflows/sendPrRemind.yml` 의 cron 식에 따라 리뷰해야할 PR 을 Remind 해줍니다.
 
-<img width="378" alt="image" src="https://user-images.githubusercontent.com/46591459/236627823-768a2d51-6bff-4971-a073-cc9f69455611.png">
+<br/>
+
+## 지원되는 Messenger Tool
+
+- **Discord**
+- **Slack**
+
+<br/>
+
+<div style="display: flex; position: relative">
+
+  <img width="400" alt="image" src="https://user-images.githubusercontent.com/46591459/236627823-768a2d51-6bff-4971-a073-cc9f69455611.png" style="margin-right: 10px; border: 2px solid #fff; border-radius: 6px; padding-top: 20px">
+  <span style="position: absolute; top: 0; left: 175px; font-weight: bold">Discord</span>
+  <img width="400" alt="image" src="https://github.com/rrgks6221/pr-notification-bot/assets/46591459/33202326-2853-4c69-a667-c56e2ff3362d"
+  style="border: 2px solid #fff; border-radius: 6px; padding-top: 20px">
+  <span style="position: absolute; width: fit-content; top: 0; left: 600px;font-weight: bold">Slack</span>
+
+</div>
 
 <br/>
 
 ## How To Use Custom
 
----
-
-> 1. git clone https://github.com/the-pool/the-pool-pull-request-reminder-action.git
+> 1. git clone https://github.com/rrgks6221/pr-notification-bot.git
 > 2. .env.sample 파일과 같은 형식으로 .env 를 만든 뒤 값을 채워주세요.
 > 3. message format customizing
 >
->    - discord 를 사용 시 [functions](./src/functions.ts) sendMessage 의 값만 바꾸면 됩니다.
->
->    - 다른 Client(ex: Slack) 을 사용한다면 해당 webhook interface 에 맞게 [functions](./src/functions.ts) sendMessage 를 수정해야합니다.
+>    - discord, slack 사용 시 [message](./src/message.ts) 의 각 메서드를 수정해주세요.
+>    - 다른 Messenger 를 사용한다면 해당 webhook interface 에 맞게 [functions](./src/message.ts) 의 새로운 메서드를 추가해주세요
 >
 > 4. npm i
 > 5. npm run start 를 통해 채널에 메시지가 잘 오는지 확인해주세요.
@@ -33,14 +47,10 @@
 
 ## **Contributors**
 
----
-
 - [**SeokHo Lee**](https:github.com/rrgks6221) - <rrgks@naver.com>
 
 <br/>
 
 ## **License**
-
----
 
 ### Git Hub Pull Request Reminder Bot is [MIT licensed](LICENSE).
