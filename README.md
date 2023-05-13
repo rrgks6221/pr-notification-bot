@@ -23,8 +23,8 @@
 > 2. .env.sample 파일과 같은 형식으로 .env 를 만든 뒤 값을 채워주세요.
 > 3. message format customizing
 >
->    - discord, slack 사용 시 [message](./src/message.ts) 의 각 메서드를 수정해주세요.
->    - 다른 Messenger 를 사용한다면 해당 webhook interface 에 맞게 [functions](./src/message.ts) 의 새로운 메서드를 추가해주세요
+>    - discord, slack 사용 시 [Message](./src/message.ts) 의 각 메서드를 수정해주세요.
+>    - 다른 Messenger 를 사용한다면 해당 webhook interface 에 맞게 [Message](./src/message.ts) 의 새로운 메서드를 추가해주세요
 >
 > 4. npm i
 > 5. npm run start 를 통해 채널에 메시지가 잘 오는지 확인해주세요.
