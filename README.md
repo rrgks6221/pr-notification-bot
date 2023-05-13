@@ -13,15 +13,7 @@
 
 <br/>
 
-<div style="display: flex; position: relative">
-
-  <img width="400" alt="image" src="https://user-images.githubusercontent.com/46591459/236627823-768a2d51-6bff-4971-a073-cc9f69455611.png" style="margin-right: 10px; border: 2px solid #fff; border-radius: 6px; padding-top: 20px">
-  <span style="position: absolute; top: 0; left: 175px; font-weight: bold">Discord</span>
-  <img width="400" alt="image" src="https://github.com/rrgks6221/pr-notification-bot/assets/46591459/33202326-2853-4c69-a667-c56e2ff3362d"
-  style="border: 2px solid #fff; border-radius: 6px; padding-top: 20px">
-  <span style="position: absolute; width: fit-content; top: 0; left: 600px;font-weight: bold">Slack</span>
-
-</div>
+<img width="675" alt="image" src="https://github.com/rrgks6221/pr-notification-bot/assets/46591459/ea26d9e8-8795-4141-bb64-9044eaa47ded">
 
 <br/>
 
