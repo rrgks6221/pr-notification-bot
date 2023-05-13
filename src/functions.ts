@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import { MessageBuilder, Webhook } from 'discord-webhook-node';
+import { IncomingWebhook } from '@slack/webhook';
 import { ReviewerForm, Pull, Messenger } from './type';
+
+const REVIEW_REQUESTED_URL = 'https://github.com/pulls/review-requested';
 
 export const getPullRequestsFromRepos = async (
   owner: string,
@@ -93,7 +96,7 @@ export const getReviewerCount = (
   return obj;
 };
 
-export const sendDiscordMessage = async (
+const sendDiscordMessage = async (
   webhookUrl: string,
   reviewerForm: ReviewerForm,
 ): Promise<void> => {
@@ -106,22 +109,22 @@ export const sendDiscordMessage = async (
   // message footer description
   const FOOTER_DESCRIPTION = 'user Description';
 
-  const hook = new Webhook(webhookUrl);
+  const webHook = new Webhook(webhookUrl);
 
-  hook.setAvatar(
+  webHook.setAvatar(
     'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
   );
-  hook.setUsername('Git Hub');
+  webHook.setUsername('Git Hub');
 
   const embed = new MessageBuilder()
     .setColor('#00b0f4' as unknown as number)
     .setAuthor(
       'PR BOT',
       'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
-      'https://github.com/pulls',
+      REVIEW_REQUESTED_URL,
     )
     .setTitle('리뷰 부탁드립니다.')
-    .setDescription('**[리뷰하러 가기](https://github.com/pulls)**')
+    .setDescription(`**[리뷰하러 가기](${REVIEW_REQUESTED_URL})**`)
     .setThumbnail(THUMBNAIL_URL)
     .setFooter(FOOTER_DESCRIPTION, FOOTER_IMAGE_URL)
     .setTimestamp();
@@ -138,7 +141,55 @@ export const sendDiscordMessage = async (
 
   embed.addField('', '\n');
 
-  await hook.send(embed);
+  await webHook.send(embed);
+};
+
+const sendSlackMessage = async (
+  webhookUrl: string,
+  reviewerForm: ReviewerForm,
+): Promise<void> => {
+  const webHook = new IncomingWebhook(webhookUrl);
+
+  const dividerBlock = {
+    type: 'divider',
+  };
+
+  const headerBlock = {
+    type: 'section',
+    text: {
+      type: 'mrkdwn',
+      text: `*리뷰부탁드립니다* :man-bowing: <${REVIEW_REQUESTED_URL}|리뷰하러가기>`,
+    },
+  };
+
+  const reviewerBlocks = Object.entries(reviewerForm).map(
+    ([reviewerId, reviewerInfo]) => {
+      const { count } = reviewerInfo;
+      const fireEmoji = Array(count).fill(':fire:').join('');
+
+      return {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*<@${reviewerId}>*\n${fireEmoji}`,
+        },
+        accessory: {
+          type: 'button',
+          text: {
+            type: 'plain_text',
+            emoji: true,
+            text: `${count}건`,
+          },
+        },
+      };
+    },
+  );
+
+  const blocks = {
+    blocks: [headerBlock, dividerBlock, ...reviewerBlocks, dividerBlock],
+  };
+
+  await webHook.send(blocks);
 };
 
 export const sendMessage = async (
@@ -147,6 +198,9 @@ export const sendMessage = async (
   reviewerForm: ReviewerForm,
 ): Promise<void> => {
   if (messenger === 'discord') {
-    await sendDiscordMessage(webhookUrl, reviewerForm);
+    return sendDiscordMessage(webhookUrl, reviewerForm);
+  }
+  if (messenger === 'slack') {
+    return sendSlackMessage(webhookUrl, reviewerForm);
   }
 };
