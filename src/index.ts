@@ -1,37 +1,49 @@
+import { getInput } from '@actions/core';
+import * as dotenv from 'dotenv';
 import {
+  getPendingPullRequests,
   getPullRequestsFromRepos,
+  getReviewerForm,
   getReviewerObj,
   getReviewers,
-  getReviewerForm,
-  getPendingPullRequests,
 } from './functions';
-import * as dotenv from 'dotenv';
-import { Pull, ReviewerForm } from './type';
 import { Message } from './message';
+import { Messenger, Pull, ReviewerForm } from './type';
 
 dotenv.config();
 
-const WEBHOOK_URL = process.env.WEBHOOK_URL as string;
-
 // 토큰을 주지 않을경우 rate limit 에 걸려 알림이 오지 않을수도 있습니다.
-const DEVELOPER_TOKEN = process.env.DEVELOPER_TOKEN;
-
-// ex) githubNickname1:webhookId1,githubNickname2:webhookId2
-const REVIEWER = process.env.REVIEWER as string;
+const { GITHUB_TOKEN } = process.env;
 
 async function main() {
   try {
+    // messenger type
+    const messengerType = getInput('MESSENGER_TYPE', {
+      required: false,
+    }) as Messenger;
     // github owner
     // https://github.com/rrgks6221/pr-notification-bot => rrgks6221
-    const owner = 'rrgks6221';
+    const owner = getInput('OWNER', {
+      required: true,
+    });
     // collect pr repositories
-    const repos: string[] = ['pr-notification-bot'];
+    const repos = getInput('REPOS', {
+      required: true,
+    }).split(',');
+    // messenger webhook url
+    const webhookUrl = getInput('WEBHOOK_URL', {
+      required: true,
+    });
+    // ex) githubNickname1:webhookId1,githubNickname2:webhookId2
+    const githubMessengerMap = getInput('GITHUB_MESSENGER_MAP', {
+      required: true,
+    });
 
     // all pull requests
     const pulls: Pull[] = await getPullRequestsFromRepos(
       owner,
       repos,
-      DEVELOPER_TOKEN,
+      GITHUB_TOKEN,
     );
 
     // pending status pull requests
@@ -40,12 +52,13 @@ async function main() {
     // github userName
     const reviewers: string[] = getReviewers(pendingPulls);
     // { githubUserName: messengerId }
-    const reviewerObj: Record<string, string> = getReviewerObj(REVIEWER);
+    const reviewerObj: Record<string, string> =
+      getReviewerObj(githubMessengerMap);
 
     // { messengerId: { count: pendingReviewCount } }
     const reviewerForm: ReviewerForm = getReviewerForm(reviewers, reviewerObj);
 
-    const message = new Message('slack', WEBHOOK_URL);
+    const message = new Message(messengerType, webhookUrl);
 
     await message.send(reviewerForm);
 

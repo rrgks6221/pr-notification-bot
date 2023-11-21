@@ -15,7 +15,8 @@
     "notification"
   ],
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "build": "tsc -p .",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/rrgks6221/pr-notification-bot#readme",
   "dependencies": {
+    "@actions/core": "^1.10.1",
     "@slack/types": "^2.8.0",
     "@slack/webhook": "^6.1.0",
     "axios": "^1.3.2",

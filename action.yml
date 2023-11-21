@@ -1,0 +1,22 @@
+name: 'Pull Request Reminder Bot'
+description: 'Send slack or discord messages to remind reviewing pull requests.'
+inputs:
+  MESSENGER_TYPE:
+    description: 'messenger type slack or discord default slack'
+    required: false
+    default: 'slack'
+  OWNER:
+    description: 'owner of github repositories'
+    required: true
+  repos:
+    description: 'target repositories. ex : "abc,def,zxc"'
+    required: true
+  webhook-url:
+    description: 'Slack Webhook URL'
+    required: true
+  github-slack-map:
+    description: 'Map GitHub username to Slack member ID. ex: "spotlight21c:UBCDEFGHI,DavideViolante:UABCDEFGH"'
+    required: true
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
