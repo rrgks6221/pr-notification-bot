@@ -18,5 +18,5 @@ inputs:
     description: 'Map GitHub username to messenger member ID. ex: "spotlight21c:UBCDEFGHI,DavideViolante:UABCDEFGH"'
     required: true
 runs:
-  using: 'node18'
+  using: 'node20'
   main: 'dist/index.js'
