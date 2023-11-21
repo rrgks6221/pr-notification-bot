@@ -1,31 +1,19 @@
-name: the-pool-pull-request-reminder-action
+name: pull-request-reminder-action
 on:
-  schedule:
-    - cron: '0 1,11 * * *'
+  push:
+    branches:
+      - 'main'
 
 jobs:
-  build:
+  pull_request_reminder_action:
     runs-on: ubuntu-latest
-
-    env:
-      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-      REVIEWER: ${{ secrets.REVIEWER }}
-      DEVELOPER_TOKEN: ${{ secrets.DEVELOPER_TOKEN }}
-
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: rrgks6221/pr-notification-bot/@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          node-version: 16
-
-      - run: |
-          touch .env
-          echo $WEBHOOK_URL >> .env
-          echo $REVIEWER >> .env
-          echo $DEVELOPER_TOKEN >> .env
-          cat .env
-      - run: npm ci
-      - run: npx ts-node src/index.ts
+          MESSENGER_TYPE: ${{ secrets.MESSENGER_TYPE }}
+          OWNER: ${{ secrets.OWNER }}
+          REPOS: ${{ secrets.REPOS }}
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          MESSENGER_GITHUB_MAP: ${{ secrets.MESSENGER_GITHUB_MAP }}
