@@ -35,7 +35,7 @@ async function main() {
       required: true,
     });
     // ex) githubNickname1:webhookId1,githubNickname2:webhookId2
-    const githubMessengerMap = getInput('GITHUB_MESSENGER_MAP', {
+    const githubMessengerMap = getInput('MESSENGER_GITHUB_MAP', {
       required: true,
     });
 

@@ -20,10 +20,15 @@ async function main() {
         const webhookUrl = (0, core_1.getInput)('WEBHOOK_URL', {
             required: true,
         });
-        const githubMessengerMap = (0, core_1.getInput)('GITHUB_MESSENGER_MAP', {
+        const githubMessengerMap = (0, core_1.getInput)('MESSENGER_GITHUB_MAP', {
             required: true,
         });
+        console.info(`messenger type is ${messengerType}`);
+        console.info(`owner is ${owner}`);
+        console.info(`repos is ${repos}`);
+        console.info(`githubMessengerMap is ${githubMessengerMap}`);
         const pulls = await (0, functions_1.getPullRequestsFromRepos)(owner, repos, GITHUB_TOKEN);
+        console.log(pulls);
         const pendingPulls = (0, functions_1.getPendingPullRequests)(pulls);
         const reviewers = (0, functions_1.getReviewers)(pendingPulls);
         const reviewerObj = (0, functions_1.getReviewerObj)(githubMessengerMap);

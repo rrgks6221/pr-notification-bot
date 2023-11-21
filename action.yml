@@ -14,7 +14,7 @@ inputs:
   WEBHOOK_URL:
     description: 'Slack or Discord Webhook URL'
     required: true
-  GITHUB_MESSENGER_MAP:
+  MESSENGER_GITHUB_MAP:
     description: 'Map GitHub username to messenger member ID. ex: "spotlight21c:UBCDEFGHI,DavideViolante:UABCDEFGH"'
     required: true
 runs:
