@@ -34,6 +34,7 @@ async function main() {
     const webhookUrl = getInput('WEBHOOK_URL', {
       required: true,
     });
+
     // ex) githubNickname1:webhookId1,githubNickname2:webhookId2
     const githubMessengerMap = getInput('MESSENGER_GITHUB_MAP', {
       required: true,
