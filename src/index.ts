@@ -11,7 +11,6 @@ import { Message } from './message';
 import { Messenger, Pull, ReviewerForm } from './type';
 
 dotenv.config();
-
 // 토큰을 주지 않을경우 rate limit 에 걸려 알림이 오지 않을수도 있습니다.
 const { GITHUB_TOKEN } = process.env;
 
