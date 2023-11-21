@@ -39,12 +39,19 @@ async function main() {
       required: true,
     });
 
+    console.info(`messenger type is ${messengerType}`);
+    console.info(`owner is ${owner}`);
+    console.info(`repos is ${repos}`);
+    console.info(`githubMessengerMap is ${githubMessengerMap}`);
+
     // all pull requests
     const pulls: Pull[] = await getPullRequestsFromRepos(
       owner,
       repos,
       GITHUB_TOKEN,
     );
+
+    console.log(pulls);
 
     // pending status pull requests
     const pendingPulls: Pull[] = getPendingPullRequests(pulls);
