@@ -17,7 +17,7 @@ const { GITHUB_TOKEN } = process.env;
 
 async function main() {
   try {
-    // messenger type
+    // messenger type //
     const messengerType = getInput('MESSENGER_TYPE', {
       required: false,
     }) as Messenger;
