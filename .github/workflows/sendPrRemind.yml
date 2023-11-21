@@ -8,7 +8,7 @@ jobs:
   pull_request_reminder_action:
     runs-on: ubuntu-latest
     steps:
-      - uses: rrgks6221/pr-notification-bot/@main
+      - uses: rrgks6221/pr-notification-bot/@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
